@@ -16,7 +16,9 @@ import com.snowcascades.app.Content;
  * on handsets.
  */
 public class resortDetailFragment extends Fragment {
-    /**
+	private Content c;
+
+	/**
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
@@ -42,7 +44,7 @@ public class resortDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = Content.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = c.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 

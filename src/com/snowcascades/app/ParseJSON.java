@@ -54,7 +54,7 @@ public class ParseJSON extends Activity {
   static public String readTwitterFeed() {
     StringBuilder builder = new StringBuilder();
     HttpClient client = new DefaultHttpClient();
-    HttpGet httpGet = new HttpGet("http://twitter.com/statuses/user_timeline/vogella.json");
+    HttpGet httpGet = new HttpGet("http://snowcascades.com/cascade/data.json");
     try {
       HttpResponse response = client.execute(httpGet);
       StatusLine statusLine = response.getStatusLine();

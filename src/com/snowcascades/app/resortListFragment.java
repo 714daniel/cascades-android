@@ -19,6 +19,7 @@ import com.snowcascades.app.Content;
  * interface.
  */
 public class resortListFragment extends ListFragment {
+	private Content c;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -69,13 +70,15 @@ public class resortListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        c = new Content();
+        // c needs to have been created with actual content
 
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<Content.DummyItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                Content.ITEMS));
+                c.ITEMS));
     }
 
     @Override
@@ -115,7 +118,7 @@ public class resortListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Content.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(c.ITEMS.get(position).id);
     }
 
     @Override
