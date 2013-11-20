@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.snowcascades.app.Content;
+import com.snowcascades.app.Content.DummyItem;
 
 /**
  * A list fragment representing a list of resorts. This fragment
@@ -71,6 +72,8 @@ public class resortListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c = new Content();
+        c.addItem(new DummyItem("1", "Ski 1"));
+//        Intent intent = getIntent();
         // c needs to have been created with actual content
 
         // TODO: replace with a real list adapter.

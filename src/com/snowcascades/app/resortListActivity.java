@@ -1,5 +1,7 @@
 package com.snowcascades.app;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -33,7 +35,13 @@ public class resortListActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        System.out.println(ParseJSON.readTwitterFeed());
+        Bundle extras = getIntent().getExtras();
+        ArrayList<String> value = new ArrayList<String>();
+        if (extras != null) {
+            value = extras.getStringArrayList("resorts");
+            System.out.println(value);
+        }
+        
         setContentView(R.layout.activity_resort_list);
 
         if (findViewById(R.id.resort_detail_container) != null) {
