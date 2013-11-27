@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 
 /**
@@ -41,6 +43,18 @@ public class resortListActivity extends FragmentActivity
             value = extras.getStringArrayList("resorts");
             System.out.println(value);
         }
+
+        FragmentManager fragMgr = getSupportFragmentManager();
+
+        FragmentTransaction xact = fragMgr.beginTransaction();
+        if (null == fragMgr.findFragmentByTag("resorts")) {
+            xact.add(
+                R.id.resort_list,
+                resortListFragment.createInstance(value),
+                "resorts");
+        }
+        xact.commit();
+
         
         setContentView(R.layout.activity_resort_list);
 

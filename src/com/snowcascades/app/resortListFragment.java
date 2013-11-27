@@ -1,6 +1,10 @@
 package com.snowcascades.app;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -68,15 +72,43 @@ public class resortListFragment extends ListFragment {
     public resortListFragment() {
     }
 
+    public static resortListFragment createInstance(ArrayList<String> resortNames) {
+        Bundle init = new Bundle();
+        init.putStringArrayList(
+            "resorts",
+            resortNames); 
+
+        resortListFragment frag = new resortListFragment();
+        frag.setArguments(init);
+        return frag;
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c = new Content();
         c.addItem(new DummyItem("1", "Ski 1"));
-//        Intent intent = getIntent();
+
+        ArrayList<String> resortList = new ArrayList<String>();
+        
+        if (null == savedInstanceState) { savedInstanceState = getArguments(); }
+        
+        if (null != savedInstanceState) { resortList = savedInstanceState.getStringArrayList("resorts"); }
+
+        int i = 0;
+        for ( String resort: resortList ) {
+            c.addItem(new DummyItem(String.valueOf(i), resort));
+            i++;
+        	
+        }
+        //if (null == time) { time = getDateTimeString(new Date()); }
+        
+        
+        //        Intent intent = getIntent();
         // c needs to have been created with actual content
 
         // TODO: replace with a real list adapter.
+    
         setListAdapter(new ArrayAdapter<Content.DummyItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
