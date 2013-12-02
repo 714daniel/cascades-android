@@ -1,6 +1,7 @@
 package com.snowcascades.app;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,12 +26,14 @@ public class resortDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "resort";
 
     /**
      * The dummy content this fragment is presenting.
      */
     private Content.DummyItem mItem;
+    
+    private String myContent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,23 +60,28 @@ public class resortDetailFragment extends Fragment {
             for ( String resort: resortList ) {
                 c.addItem(new DummyItem(String.valueOf(i), resort));
                 i++;
-            	
             }
         }
-        
+        Bundle a = getArguments();
+        Set<String> s = a.keySet();
+        for ( String st : s ) {
+        	System.out.println(st);
+        }
+
         if (getArguments().containsKey(ARG_ITEM_ID)) {
+        	myContent = getArguments().getString(ARG_ITEM_ID);
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = c.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+//            mItem = c.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
-    public static resortDetailFragment createInstance(ArrayList<String> resortNames) {
+    public static resortDetailFragment createInstance(String foo) {
         Bundle init = new Bundle();
-        init.putStringArrayList(
-            "resorts",
-            resortNames); 
+        init.putString(
+        	ARG_ITEM_ID,
+            foo);
 
         resortDetailFragment frag = new resortDetailFragment();
         frag.setArguments(init);
@@ -86,8 +94,8 @@ public class resortDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(mItem.content);
+        if (myContent != null) {
+            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent);
         }
 
         return rootView;

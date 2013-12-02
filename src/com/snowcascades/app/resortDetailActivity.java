@@ -25,23 +25,18 @@ public class resortDetailActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle extras = getIntent().getExtras();
-        ArrayList<String> value = new ArrayList<String>();
-        if (extras != null) {
-            value = extras.getStringArrayList("resorts");
-            System.out.println(value);
-        }
-
-        FragmentManager fragMgr = getSupportFragmentManager();
+        /*
+         * FragmentManager fragMgr = getSupportFragmentManager();
 
         FragmentTransaction xact = fragMgr.beginTransaction();
-        if (null == fragMgr.findFragmentByTag("resorts")) {
+        if (null == fragMgr.findFragmentByTag(resortDetailFragment.ARG_ITEM_ID)) {
             xact.add(
                 R.id.resort_detail_container,
-                resortDetailFragment.createInstance(value),
-                "resorts");
+                resortDetailFragment.createInstance("excaliber"),
+                resortDetailFragment.ARG_ITEM_ID);
         }
         xact.commit();
+        */
         
         setContentView(R.layout.activity_resort_detail);
 
