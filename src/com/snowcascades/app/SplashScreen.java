@@ -121,8 +121,6 @@ public class SplashScreen extends Activity {
             // will close this activity and lauch main activity
 //          Intent i = new Intent(SplashScreen.this, MainActivity.class);
             Intent i = new Intent(SplashScreen.this, resortListActivity.class);
-            i.putExtra("now_playing", now_playing);
-            i.putExtra("earned", earned);
             i.putStringArrayListExtra("resorts",data);
             startActivity(i);
  

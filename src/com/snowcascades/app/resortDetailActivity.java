@@ -1,8 +1,12 @@
 package com.snowcascades.app;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
@@ -20,6 +24,25 @@ public class resortDetailActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        ArrayList<String> value = new ArrayList<String>();
+        if (extras != null) {
+            value = extras.getStringArrayList("resorts");
+            System.out.println(value);
+        }
+
+        FragmentManager fragMgr = getSupportFragmentManager();
+
+        FragmentTransaction xact = fragMgr.beginTransaction();
+        if (null == fragMgr.findFragmentByTag("resorts")) {
+            xact.add(
+                R.id.resort_detail_container,
+                resortDetailFragment.createInstance(value),
+                "resorts");
+        }
+        xact.commit();
+        
         setContentView(R.layout.activity_resort_detail);
 
         // Show the Up button in the action bar.

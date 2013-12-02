@@ -16,7 +16,6 @@ public final class R {
     }
     public static final class id {
         public static final int imgLogo=0x7f060002;
-        public static final int resort_detail=0x7f060003;
         public static final int resort_detail_container=0x7f060000;
         public static final int resort_list=0x7f060001;
     }

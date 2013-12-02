@@ -33,15 +33,15 @@ public class resortListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         ArrayList<String> value = new ArrayList<String>();
         if (extras != null) {
             value = extras.getStringArrayList("resorts");
-            System.out.println(value);
         }
 
         FragmentManager fragMgr = getSupportFragmentManager();
@@ -97,7 +97,15 @@ public class resortListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, resortDetailActivity.class);
-            detailIntent.putExtra(resortDetailFragment.ARG_ITEM_ID, id);
+            if (extras != null) {
+            	ArrayList<String> value = extras.getStringArrayList("resorts");
+                detailIntent.putStringArrayListExtra("resorts",value);
+            }
+//            Intent detailIntent = getIntent();
+
+//            detailIntent.putStringArrayListExtra("resorts",data);
+
+//            detailIntent.putExtra(resortDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

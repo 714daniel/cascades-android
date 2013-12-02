@@ -3,8 +3,6 @@ package com.snowcascades.app;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -87,7 +85,6 @@ public class resortListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c = new Content();
-        c.addItem(new DummyItem("1", "Ski 1"));
 
         ArrayList<String> resortList = new ArrayList<String>();
         
