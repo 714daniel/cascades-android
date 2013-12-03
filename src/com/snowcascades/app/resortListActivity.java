@@ -81,12 +81,28 @@ public class resortListActivity extends FragmentActivity
      */
     @Override
     public void onItemSelected(String id) {
+        ArrayList<String> value = new ArrayList<String>();
+        if (extras != null) {
+            value = extras.getStringArrayList("resorts");
+        }
+        
+        String disposable = "";
+        if ( value != null ) {
+        	int i = 0;
+        	for ( String st : value ) {
+        		disposable = st;
+        		if ( String.valueOf(i).equals(id) ) {
+        			break;
+        		}
+        		i++;
+        	}
+        }
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(resortDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(resortDetailFragment.ARG_ITEM_ID, disposable);
             resortDetailFragment fragment = new resortDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -98,8 +114,8 @@ public class resortListActivity extends FragmentActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, resortDetailActivity.class);
             if (extras != null) {
-            	ArrayList<String> value = extras.getStringArrayList("resorts");
-                detailIntent.putStringArrayListExtra("resorts",value);
+//            	ArrayList<String> value = extras.getStringArrayList("resorts");
+                detailIntent.putExtra(resortDetailFragment.ARG_ITEM_ID, disposable);
             }
 //            Intent detailIntent = getIntent();
 

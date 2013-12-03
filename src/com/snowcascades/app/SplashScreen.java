@@ -84,7 +84,7 @@ public class SplashScreen extends Activity {
             String json = jsonParser
                     .getJSONFromUrl("http://snowcascades.com/cascade/data.json");
  
-            Log.e("Response: ", "> " + json);
+//            Log.e("Response: ", "> " + json);
             data = new ArrayList<String>();
  
             if (json != null) {
@@ -100,7 +100,6 @@ public class SplashScreen extends Activity {
  
                     for (int i = 0; i < jArr.length(); i++) {
                         JSONObject o = jArr.getJSONObject(i);
-                    	Log.e("JSON", "> " + o.getString("name"));
                     	data.add(o.getString("name"));
                     }
  
