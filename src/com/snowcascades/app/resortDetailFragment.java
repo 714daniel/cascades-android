@@ -29,11 +29,10 @@ public class resortDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "resort";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The content this fragment is presenting.
      */
-    private Content.ResortItem mItem;
     
-    private String myContent;
+    private ResortItem myContent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,27 +48,21 @@ public class resortDetailFragment extends Fragment {
         c = new Content();
         c.addItem(new ResortItem("1", "Ski 1"));
 
-        ArrayList<String> resortList = new ArrayList<String>();
+        ArrayList<ResortItem> resortList = new ArrayList<ResortItem>();
         
         if (null == savedInstanceState) { savedInstanceState = getArguments(); }
         
-        if (null != savedInstanceState) { resortList = savedInstanceState.getStringArrayList("resorts"); }
+        if (null != savedInstanceState) { resortList = savedInstanceState.getParcelableArrayList("resorts"); }
 
         if ( resortList != null ) {
-        	int i = 0;
-            for ( String resort: resortList ) {
-                c.addItem(new ResortItem(String.valueOf(i), resort));
-                i++;
+            for ( ResortItem resort: resortList ) {
+                c.addItem(resort);
             }
         }
-        Bundle a = getArguments();
-        Set<String> s = a.keySet();
-        for ( String st : s ) {
-        	System.out.println(st);
-        }
+
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-        	myContent = getArguments().getString(ARG_ITEM_ID);
+        	myContent = getArguments().getParcelable(ARG_ITEM_ID);
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
@@ -77,9 +70,9 @@ public class resortDetailFragment extends Fragment {
         }
     }
 
-    public static resortDetailFragment createInstance(String foo) {
+    public static resortDetailFragment createInstance(ResortItem foo) {
         Bundle init = new Bundle();
-        init.putString(
+        init.putParcelable(
         	ARG_ITEM_ID,
             foo);
 
@@ -95,7 +88,7 @@ public class resortDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (myContent != null) {
-            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent);
+            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.content);
         }
 
         return rootView;

@@ -92,11 +92,8 @@ public class resortListFragment extends ListFragment {
         
         if (null != savedInstanceState) { resortList = savedInstanceState.getParcelableArrayList("resorts"); }
 
-        int i = 0;
         for ( ResortItem resort: resortList ) {
             c.addItem(resort);
-            i++;
-        	
         }
         //if (null == time) { time = getDateTimeString(new Date()); }
         

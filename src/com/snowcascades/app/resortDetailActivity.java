@@ -56,8 +56,8 @@ public class resortDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(resortDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(resortDetailFragment.ARG_ITEM_ID));
+            arguments.putParcelable(resortDetailFragment.ARG_ITEM_ID,
+                    getIntent().getParcelableExtra(resortDetailFragment.ARG_ITEM_ID));
             resortDetailFragment fragment = new resortDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

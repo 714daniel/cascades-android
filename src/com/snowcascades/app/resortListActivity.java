@@ -83,20 +83,18 @@ public class resortListActivity extends FragmentActivity
      */
     @Override
     public void onItemSelected(String id) {
-        ArrayList<String> value = new ArrayList<String>();
+        ArrayList<ResortItem> value = new ArrayList<ResortItem>();
         if (extras != null) {
-            value = extras.getStringArrayList("resorts");
+            value = extras.getParcelableArrayList("resorts");
         }
         
-        String disposable = "";
+        ResortItem disposable = new ResortItem("","");
         if ( value != null ) {
-        	int i = 0;
-        	for ( String st : value ) {
+        	for ( ResortItem st : value ) {
         		disposable = st;
-        		if ( String.valueOf(i).equals(id) ) {
+        		if ( st.id.equals(id) ) {
         			break;
         		}
-        		i++;
         	}
         }
 
@@ -105,7 +103,7 @@ public class resortListActivity extends FragmentActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(resortDetailFragment.ARG_ITEM_ID, disposable);
+            arguments.putString(resortDetailFragment.ARG_ITEM_ID, disposable.content);
             resortDetailFragment fragment = new resortDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
