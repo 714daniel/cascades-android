@@ -30,7 +30,7 @@ public class ParseJSON extends Activity {
     super.onCreate(savedInstanceState);
     
     // Just for testing, allow network access in the main thread
-    // NEVER use this is productive code
+    // NEVER use this in productive code
     StrictMode.ThreadPolicy policy = new StrictMode.
     ThreadPolicy.Builder().permitAll().build();
     StrictMode.setThreadPolicy(policy); 
@@ -38,17 +38,17 @@ public class ParseJSON extends Activity {
     
 //    setContentView(R.layout.main);
     String readTwitterFeed = readTwitterFeed();
-    try {
-      JSONArray jsonArray = new JSONArray(readTwitterFeed);
-      Log.i(ParseJSON.class.getName(),
-          "Number of entries " + jsonArray.length());
-      for (int i = 0; i < jsonArray.length(); i++) {
-        JSONObject jsonObject = jsonArray.getJSONObject(i);
-        Log.i(ParseJSON.class.getName(), jsonObject.getString("text"));
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+//    try {
+//      JSONArray jsonArray = new JSONArray(readTwitterFeed);
+//      Log.i(ParseJSON.class.getName(),
+//          "Number of entries " + jsonArray.length());
+//      for (int i = 0; i < jsonArray.length(); i++) {
+//        JSONObject jsonObject = jsonArray.getJSONObject(i);
+//        Log.i(ParseJSON.class.getName(), jsonObject.getString("text"));
+//      }
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
   }
 
   static public String readTwitterFeed() {

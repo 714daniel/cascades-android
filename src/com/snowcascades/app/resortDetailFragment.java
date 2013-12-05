@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.snowcascades.app.Content;
-import com.snowcascades.app.Content.DummyItem;
+import com.snowcascades.app.Content.ResortItem;
 
 /**
  * A fragment representing a single resort detail screen.
@@ -31,7 +31,7 @@ public class resortDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Content.DummyItem mItem;
+    private Content.ResortItem mItem;
     
     private String myContent;
 
@@ -47,7 +47,7 @@ public class resortDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         c = new Content();
-        c.addItem(new DummyItem("1", "Ski 1"));
+        c.addItem(new ResortItem("1", "Ski 1"));
 
         ArrayList<String> resortList = new ArrayList<String>();
         
@@ -58,7 +58,7 @@ public class resortDetailFragment extends Fragment {
         if ( resortList != null ) {
         	int i = 0;
             for ( String resort: resortList ) {
-                c.addItem(new DummyItem(String.valueOf(i), resort));
+                c.addItem(new ResortItem(String.valueOf(i), resort));
                 i++;
             }
         }

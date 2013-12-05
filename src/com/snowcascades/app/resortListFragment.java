@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.snowcascades.app.Content;
-import com.snowcascades.app.Content.DummyItem;
+import com.snowcascades.app.Content.ResortItem;
 
 /**
  * A list fragment representing a list of resorts. This fragment
@@ -94,7 +94,7 @@ public class resortListFragment extends ListFragment {
 
         int i = 0;
         for ( String resort: resortList ) {
-            c.addItem(new DummyItem(String.valueOf(i), resort));
+            c.addItem(new ResortItem(String.valueOf(i), resort));
             i++;
         	
         }
@@ -106,7 +106,7 @@ public class resortListFragment extends ListFragment {
 
         // TODO: replace with a real list adapter.
     
-        setListAdapter(new ArrayAdapter<Content.DummyItem>(
+        setListAdapter(new ArrayAdapter<Content.ResortItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
