@@ -24,19 +24,6 @@ public class resortDetailActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*
-         * FragmentManager fragMgr = getSupportFragmentManager();
-
-        FragmentTransaction xact = fragMgr.beginTransaction();
-        if (null == fragMgr.findFragmentByTag(resortDetailFragment.ARG_ITEM_ID)) {
-            xact.add(
-                R.id.resort_detail_container,
-                resortDetailFragment.createInstance("excaliber"),
-                resortDetailFragment.ARG_ITEM_ID);
-        }
-        xact.commit();
-        */
         
         setContentView(R.layout.activity_resort_detail);
 

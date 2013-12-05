@@ -44,15 +44,18 @@ public class Content {
     public static class ResortItem implements Parcelable {
         public String id;
         public String content;
+        public String traffic;
 
-        public ResortItem(String id, String content) {
+        public ResortItem(String id, String content, String traffic) {
             this.id = id;
             this.content = content;
+            this.traffic = traffic;
         }
 
         public ResortItem(Parcel source) {
             this.id = source.readString();
             this.content = source.readString();
+            this.traffic = source.readString();
         }
 
         @Override
@@ -69,6 +72,7 @@ public class Content {
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(id);
 			dest.writeString(content);
+			dest.writeString(traffic);
 			
 		}
 

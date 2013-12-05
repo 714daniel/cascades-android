@@ -88,7 +88,7 @@ public class resortListActivity extends FragmentActivity
             value = extras.getParcelableArrayList("resorts");
         }
         
-        ResortItem disposable = new ResortItem("","");
+        ResortItem disposable = new ResortItem("","","");
         if ( value != null ) {
         	for ( ResortItem st : value ) {
         		disposable = st;

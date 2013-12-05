@@ -46,7 +46,6 @@ public class resortDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         c = new Content();
-        c.addItem(new ResortItem("1", "Ski 1"));
 
         ArrayList<ResortItem> resortList = new ArrayList<ResortItem>();
         
@@ -88,7 +87,7 @@ public class resortDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (myContent != null) {
-            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.content);
+            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.traffic);
         }
 
         return rootView;
