@@ -2,6 +2,8 @@ package com.snowcascades.app;
 
 import java.util.ArrayList;
 
+import com.snowcascades.app.Content.ResortItem;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -39,9 +41,9 @@ public class resortListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         extras = getIntent().getExtras();
-        ArrayList<String> value = new ArrayList<String>();
+        ArrayList<ResortItem> value = new ArrayList<ResortItem>();
         if (extras != null) {
-            value = extras.getStringArrayList("resorts");
+            value = extras.getParcelableArrayList("resorts");
         }
 
         FragmentManager fragMgr = getSupportFragmentManager();

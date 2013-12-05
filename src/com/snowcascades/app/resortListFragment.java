@@ -70,11 +70,11 @@ public class resortListFragment extends ListFragment {
     public resortListFragment() {
     }
 
-    public static resortListFragment createInstance(ArrayList<String> resortNames) {
+    public static resortListFragment createInstance(ArrayList<ResortItem> value) {
         Bundle init = new Bundle();
-        init.putStringArrayList(
+        init.putParcelableArrayList(
             "resorts",
-            resortNames); 
+            value);
 
         resortListFragment frag = new resortListFragment();
         frag.setArguments(init);
@@ -86,15 +86,15 @@ public class resortListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         c = new Content();
 
-        ArrayList<String> resortList = new ArrayList<String>();
+        ArrayList<ResortItem> resortList = new ArrayList<ResortItem>();
         
         if (null == savedInstanceState) { savedInstanceState = getArguments(); }
         
-        if (null != savedInstanceState) { resortList = savedInstanceState.getStringArrayList("resorts"); }
+        if (null != savedInstanceState) { resortList = savedInstanceState.getParcelableArrayList("resorts"); }
 
         int i = 0;
-        for ( String resort: resortList ) {
-            c.addItem(new ResortItem(String.valueOf(i), resort));
+        for ( ResortItem resort: resortList ) {
+            c.addItem(resort);
             i++;
         	
         }
@@ -104,7 +104,6 @@ public class resortListFragment extends ListFragment {
         //        Intent intent = getIntent();
         // c needs to have been created with actual content
 
-        // TODO: replace with a real list adapter.
     
         setListAdapter(new ArrayAdapter<Content.ResortItem>(
                 getActivity(),

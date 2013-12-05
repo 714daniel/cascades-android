@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
+
+import com.snowcascades.app.Content.ResortItem;
  
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class SplashScreen extends Activity {
-	private ArrayList<String> data;
+	private ArrayList<ResortItem> data;
  
  
     /*
@@ -85,7 +87,7 @@ public class SplashScreen extends Activity {
                     .getJSONFromUrl("http://snowcascades.com/cascade/data.json");
  
 //            Log.e("Response: ", "> " + json);
-            data = new ArrayList<String>();
+            data = new ArrayList<ResortItem>();
  
             if (json != null) {
                 try {
@@ -100,7 +102,7 @@ public class SplashScreen extends Activity {
  
                     for (int i = 0; i < jArr.length(); i++) {
                         JSONObject o = jArr.getJSONObject(i);
-                    	data.add(o.getString("name"));
+                    	data.add(new ResortItem(o.getString("name"),o.getString("name")));
                     }
  
                 } catch (JSONException e) {
@@ -120,7 +122,7 @@ public class SplashScreen extends Activity {
             // will close this activity and lauch main activity
 //          Intent i = new Intent(SplashScreen.this, MainActivity.class);
             Intent i = new Intent(SplashScreen.this, resortListActivity.class);
-            i.putStringArrayListExtra("resorts",data);
+            i.putParcelableArrayListExtra("resorts",data);
             startActivity(i);
  
             // close this activity

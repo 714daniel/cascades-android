@@ -23,6 +23,7 @@ import android.util.Log;
 
 public class ParseJSON extends Activity {
   
+	// unused? 
 /** Called when the activity is first created. */
 
   @Override
