@@ -102,7 +102,8 @@ public class SplashScreen extends Activity {
  
                     for (int i = 0; i < jArr.length(); i++) {
                         JSONObject o = jArr.getJSONObject(i);
-                    	data.add(new ResortItem(o.getString("name"),o.getString("name"),"traffic"));
+                        data.add(new ResortItem(o));
+//                    	data.add(new ResortItem(o.getString("name"),o.getString("name"),"traffic"));
                     }
  
                 } catch (JSONException e) {

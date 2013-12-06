@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -41,21 +43,86 @@ public class Content {
         ITEM_MAP.put(item.id, item);
     }
 
+    public static class TrafficItem implements Parcelable {
+        public String id;
+        public String content;
+        
+        public TrafficItem() {
+            this.id = "name";
+            this.content = "name";
+        }
+
+        public TrafficItem(JSONObject o ) {
+        	try {
+	            this.id = "from json";
+	            this.content = "from json content";
+        	} catch ( Exception e ) {
+        		
+        	}
+        }    
+
+        public TrafficItem(Parcel source) {
+            this.id = source.readString();
+            this.content = source.readString();
+        }
+
+
+        @Override
+        public String toString() {
+            return content;
+        }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(id);
+			dest.writeString(content);
+		}
+
+		public static final Parcelable.Creator<TrafficItem> CREATOR = new Parcelable.Creator<TrafficItem>() {
+		    public TrafficItem createFromParcel(Parcel in) {
+		        return new TrafficItem(in);
+		    }
+
+		    public TrafficItem[] newArray(int size) {
+		        return new TrafficItem[size];
+		    }
+		};
+		
+    }
+
     public static class ResortItem implements Parcelable {
         public String id;
         public String content;
-        public String traffic;
+        public TrafficItem traffic;
 
-        public ResortItem(String id, String content, String traffic) {
-            this.id = id;
-            this.content = content;
-            this.traffic = traffic;
+        public ResortItem() {
+            this.id = "";
+            this.content = "";
+            this.traffic = new TrafficItem();
+        }
+
+        public ResortItem(JSONObject o ) {
+        	try {
+	            this.id = o.getString("name");
+	            this.content = o.getString("name");
+	            this.traffic = new TrafficItem(o.getJSONObject("traffic"));
+        	} catch ( Exception e ) {
+                this.id = "";
+                this.content = "";
+                this.traffic = new TrafficItem();
+        	}
+        	
         }
 
         public ResortItem(Parcel source) {
             this.id = source.readString();
             this.content = source.readString();
-            this.traffic = source.readString();
+            this.traffic = source.readParcelable(TrafficItem.class.getClassLoader());
         }
 
         @Override
@@ -72,8 +139,7 @@ public class Content {
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(id);
 			dest.writeString(content);
-			dest.writeString(traffic);
-			
+			dest.writeParcelable(traffic, 0);
 		}
 
 		public static final Parcelable.Creator<ResortItem> CREATOR = new Parcelable.Creator<ResortItem>() {
