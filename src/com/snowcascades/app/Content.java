@@ -44,38 +44,35 @@ public class Content {
         ITEM_MAP.put(item.id, item);
     }
 
-    public static class TrafficItem implements Parcelable {
-        public String id;
-        public String content;
-        
-        public TrafficItem() {
-            this.id = "name";
-            this.content = "name";
+    public static class FormattedPair implements Parcelable {
+        public String text;
+        public String header;
+
+        public FormattedPair() {
+            this.text = "no data";
+            this.header = "";
         }
 
-        public TrafficItem(JSONObject o ) {
+        public FormattedPair(JSONObject o ) {
         	try {
-        		JSONArray a = o.getJSONArray("body");
-        		for (int i = 0; i < a.length(); i++) {
-        		    JSONObject row = a.getJSONObject(i);
-        		    this.content = row.getString("text");
-        		    break;
-        		}
-        		this.id = "from json";
+       		    this.text = o.getString("text");
+       		    this.header = o.getString("header");
         	} catch ( Exception e ) {
+       		    this.text = "bad data";
+       		    this.header = "";
         		
         	}
         }    
 
-        public TrafficItem(Parcel source) {
-            this.id = source.readString();
-            this.content = source.readString();
+        public FormattedPair(Parcel source) {
+            this.text = source.readString();
+            this.header = source.readString();
         }
 
 
         @Override
         public String toString() {
-            return content;
+            return text;
         }
 
 		@Override
@@ -85,17 +82,120 @@ public class Content {
 
 		@Override
 		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeString(id);
-			dest.writeString(content);
+			dest.writeString(text);
+			dest.writeString(header);
 		}
 
-		public static final Parcelable.Creator<TrafficItem> CREATOR = new Parcelable.Creator<TrafficItem>() {
-		    public TrafficItem createFromParcel(Parcel in) {
-		        return new TrafficItem(in);
+		public static final Parcelable.Creator<FormattedPair> CREATOR = new Parcelable.Creator<FormattedPair>() {
+		    public FormattedPair createFromParcel(Parcel in) {
+		        return new FormattedPair(in);
 		    }
 
-		    public TrafficItem[] newArray(int size) {
-		        return new TrafficItem[size];
+		    public FormattedPair[] newArray(int size) {
+		        return new FormattedPair[size];
+		    }
+		};
+	}
+
+    public static class TabbedItem implements Parcelable {
+    	public String title;
+
+    	public TabbedItem() {
+    		this.title = "";
+    	}
+    	
+    	public TabbedItem(JSONObject o) {
+    		try {
+        		this.title = o.getString("title");
+    		} catch (Exception e) {
+    			this.title = "bad data";
+    		}
+    		
+    	}
+
+    	public TabbedItem(Parcel source) {
+            this.title = source.readString();
+        }
+
+
+        @Override
+        public String toString() {
+            return "";
+        }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(title);
+		}
+
+		public static final Parcelable.Creator<TabbedItem> CREATOR = new Parcelable.Creator<TabbedItem>() {
+		    public TabbedItem createFromParcel(Parcel in) {
+		        return new TabbedItem(in);
+		    }
+
+		    public TabbedItem[] newArray(int size) {
+		        return new TabbedItem[size];
+		    }
+		};
+    }
+
+    public static class BodyItem implements Parcelable {
+        public ArrayList<FormattedPair> content;
+        public String title;
+        
+        public BodyItem() {
+            this.content = new ArrayList<FormattedPair>();
+            this.title = "no data";
+        }
+
+        public BodyItem(JSONObject o ) {
+        	try {
+        		this.title = o.getString("title");
+        		JSONArray a = o.getJSONArray("body");
+        		content = new ArrayList<FormattedPair>();
+        		for (int i = 0; i < a.length(); i++) {
+        		    JSONObject row = a.getJSONObject(i);
+        			this.content.add(new FormattedPair(row));
+        		}
+        	} catch ( Exception e ) {
+                this.title = "bad data";
+        	}
+        }
+
+        public BodyItem(Parcel source) {
+            this.title = source.readString();
+            this.content = source.createTypedArrayList(FormattedPair.CREATOR);
+        }
+
+
+        @Override
+        public String toString() {
+            return "";
+        }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(title);
+			dest.writeTypedList(content);
+		}
+
+		public static final Parcelable.Creator<BodyItem> CREATOR = new Parcelable.Creator<BodyItem>() {
+		    public BodyItem createFromParcel(Parcel in) {
+		        return new BodyItem(in);
+		    }
+
+		    public BodyItem[] newArray(int size) {
+		        return new BodyItem[size];
 		    }
 		};
 		
@@ -104,23 +204,27 @@ public class Content {
     public static class ResortItem implements Parcelable {
         public String id;
         public String content;
-        public TrafficItem traffic;
+        public BodyItem traffic;
+        public BodyItem snow;
 
         public ResortItem() {
             this.id = "";
             this.content = "";
-            this.traffic = new TrafficItem();
+            this.traffic = new BodyItem();
+            this.snow = new BodyItem();
         }
 
         public ResortItem(JSONObject o ) {
         	try {
 	            this.id = o.getString("name");
 	            this.content = o.getString("name");
-	            this.traffic = new TrafficItem(o.getJSONObject("traffic"));
+	            this.traffic = new BodyItem(o.getJSONObject("traffic"));
+	            this.snow = new BodyItem(o.getJSONObject("conditions"));
         	} catch ( Exception e ) {
                 this.id = "";
-                this.content = "";
-                this.traffic = new TrafficItem();
+                this.content = "bad data";
+                this.traffic = new BodyItem();
+                this.snow = new BodyItem();
         	}
         	
         }
@@ -128,7 +232,8 @@ public class Content {
         public ResortItem(Parcel source) {
             this.id = source.readString();
             this.content = source.readString();
-            this.traffic = source.readParcelable(TrafficItem.class.getClassLoader());
+            this.traffic = source.readParcelable(BodyItem.class.getClassLoader());
+            this.snow = source.readParcelable(BodyItem.class.getClassLoader());
         }
 
         @Override
@@ -146,6 +251,7 @@ public class Content {
 			dest.writeString(id);
 			dest.writeString(content);
 			dest.writeParcelable(traffic, 0);
+			dest.writeParcelable(snow, 0);
 		}
 
 		public static final Parcelable.Creator<ResortItem> CREATOR = new Parcelable.Creator<ResortItem>() {

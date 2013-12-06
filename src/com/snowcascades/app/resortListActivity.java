@@ -115,14 +115,8 @@ public class resortListActivity extends FragmentActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, resortDetailActivity.class);
             if (extras != null) {
-//            	ArrayList<String> value = extras.getStringArrayList("resorts");
                 detailIntent.putExtra(resortDetailFragment.ARG_ITEM_ID, disposable);
             }
-//            Intent detailIntent = getIntent();
-
-//            detailIntent.putStringArrayListExtra("resorts",data);
-
-//            detailIntent.putExtra(resortDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }
