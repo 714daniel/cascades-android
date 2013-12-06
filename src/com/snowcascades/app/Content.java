@@ -99,14 +99,22 @@ public class Content {
 
     public static class TabbedItem implements Parcelable {
     	public String title;
+        public ArrayList<BodyItem> content;
 
     	public TabbedItem() {
+            this.content = new ArrayList<BodyItem>();
     		this.title = "";
     	}
     	
     	public TabbedItem(JSONObject o) {
     		try {
         		this.title = o.getString("title");
+        		JSONArray a = o.getJSONArray("tabs");
+        		content = new ArrayList<BodyItem>();
+        		for (int i = 0; i < a.length(); i++) {
+        		    JSONObject row = a.getJSONObject(i);
+        			this.content.add(new BodyItem(row));
+        		}
     		} catch (Exception e) {
     			this.title = "bad data";
     		}
@@ -115,6 +123,7 @@ public class Content {
 
     	public TabbedItem(Parcel source) {
             this.title = source.readString();
+            this.content = source.createTypedArrayList(BodyItem.CREATOR);
         }
 
 
@@ -131,6 +140,7 @@ public class Content {
 		@Override
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(title);
+			dest.writeTypedList(content);
 		}
 
 		public static final Parcelable.Creator<TabbedItem> CREATOR = new Parcelable.Creator<TabbedItem>() {
@@ -206,6 +216,7 @@ public class Content {
         public String content;
         public BodyItem traffic;
         public BodyItem snow;
+        public TabbedItem weather;
 
         public ResortItem() {
             this.id = "";
@@ -220,11 +231,13 @@ public class Content {
 	            this.content = o.getString("name");
 	            this.traffic = new BodyItem(o.getJSONObject("traffic"));
 	            this.snow = new BodyItem(o.getJSONObject("conditions"));
+	            this.weather = new TabbedItem(o.getJSONObject("weather"));
         	} catch ( Exception e ) {
                 this.id = "";
                 this.content = "bad data";
                 this.traffic = new BodyItem();
                 this.snow = new BodyItem();
+                this.weather = new TabbedItem();
         	}
         	
         }
@@ -234,6 +247,7 @@ public class Content {
             this.content = source.readString();
             this.traffic = source.readParcelable(BodyItem.class.getClassLoader());
             this.snow = source.readParcelable(BodyItem.class.getClassLoader());
+            this.weather = source.readParcelable(TabbedItem.class.getClassLoader());
         }
 
         @Override
@@ -252,6 +266,7 @@ public class Content {
 			dest.writeString(content);
 			dest.writeParcelable(traffic, 0);
 			dest.writeParcelable(snow, 0);
+			dest.writeParcelable(weather, 0);
 		}
 
 		public static final Parcelable.Creator<ResortItem> CREATOR = new Parcelable.Creator<ResortItem>() {

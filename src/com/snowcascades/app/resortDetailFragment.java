@@ -87,6 +87,7 @@ public class resortDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (myContent != null) {
+//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
             ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
         }
 
