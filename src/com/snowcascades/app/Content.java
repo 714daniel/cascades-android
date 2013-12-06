@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.Parcel;
@@ -54,8 +55,13 @@ public class Content {
 
         public TrafficItem(JSONObject o ) {
         	try {
-	            this.id = "from json";
-	            this.content = "from json content";
+        		JSONArray a = o.getJSONArray("body");
+        		for (int i = 0; i < a.length(); i++) {
+        		    JSONObject row = a.getJSONObject(i);
+        		    this.content = row.getString("text");
+        		    break;
+        		}
+        		this.id = "from json";
         	} catch ( Exception e ) {
         		
         	}
