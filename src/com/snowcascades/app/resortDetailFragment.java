@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.snowcascades.app.Content;
@@ -83,12 +84,21 @@ public class resortDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
+        //View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
+    	LinearLayout rootView = (LinearLayout)inflater.inflate(R.layout.body_item_display, container, false);
 
-        // Show the dummy content as text in a TextView.
+
         if (myContent != null) {
 //            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
-            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
+//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
+            // put buttons at the top of the resort_detail_container
+//            TextView child = new TextView(mActivity);
+//            ((LinearLayout) rootView.findViewById(R.id.body)).addView(child);
+
+            // use viewPager for weather
+            
+            // use LinearLayout for body with TextView children
+            
         }
 
         return rootView;
