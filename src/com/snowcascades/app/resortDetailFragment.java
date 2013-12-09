@@ -84,8 +84,7 @@ public class resortDetailFragment extends Fragment {
         return frag;
     }
 
-    private LinearLayout showSnow(LayoutInflater inflater, ViewGroup container){
-    	LinearLayout rootView = (LinearLayout)inflater.inflate(R.layout.body_item_display, container, false);
+    private LinearLayout showSnow(LinearLayout rootView){
 
         if (myContent != null) {
         	if ( myContent.snow != null &&  myContent.snow.content != null ) {
@@ -114,10 +113,69 @@ public class resortDetailFragment extends Fragment {
         return rootView;
     }
 
+    private LinearLayout showTraffic(LinearLayout rootView){
+
+        if (myContent != null) {
+        	if ( myContent.snow != null &&  myContent.snow.content != null ) {
+        		BodyItem items = myContent.traffic;
+        		for ( FormattedPair pair : items.content ) {
+            	    TextView header = new TextView(getActivity());
+            	    header.setText(pair.header);
+            	    rootView.addView(header);
+
+            	    TextView text = new TextView(getActivity());
+            	    text.setText(pair.text);
+            	    rootView.addView(text);
+        		}
+        	}
+        	//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
+//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
+            // put buttons at the top of the resort_detail_container
+//            TextView child = new TextView(mActivity);
+//            ((LinearLayout) rootView.findViewById(R.id.body)).addView(child);
+
+            // use viewPager for weather
+            
+            // use LinearLayout for body with TextView children
+            
+        }
+        return rootView;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-    	return showSnow(inflater, container);
+
+    	final LinearLayout rootView = (LinearLayout)inflater.inflate(R.layout.body_item_display, container, false);
+
+        final LinearLayout contentView = new LinearLayout(getActivity());;
+        showSnow(contentView);
+
+    	Button snowButton = new Button(getActivity());
+    	snowButton.setText("snow");
+    	snowButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+            	contentView.removeAllViewsInLayout();
+            	showSnow(contentView);
+            }
+        });
+	    rootView.addView(snowButton);
+
+    	Button trafficButton = new Button(getActivity());
+    	trafficButton.setText("traffic");
+    	trafficButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+            	contentView.removeAllViewsInLayout();
+            	showTraffic(contentView);
+            }
+        });
+        rootView.addView(trafficButton);
+
+	    rootView.addView(contentView);
+
+	    return rootView;
         //View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
 
 
