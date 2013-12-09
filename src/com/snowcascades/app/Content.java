@@ -30,14 +30,6 @@ public class Content {
     
     public Content() {}
 
-    /*
-     * static {
-        // Add 3 sample items.
-        addItem(new DummyItem("1", "Item 1"));
-        addItem(new DummyItem("2", "Item 2"));
-        addItem(new DummyItem("3", "Item 3"));
-    }
-    */
 
     public void addItem(ResortItem item) {
         ITEMS.add(item);
@@ -47,26 +39,38 @@ public class Content {
     public static class FormattedPair implements Parcelable {
         public String text;
         public String header;
+        public String icon;
 
         public FormattedPair() {
             this.text = "no data";
             this.header = "";
+            this.icon = "";
         }
 
         public FormattedPair(JSONObject o ) {
         	try {
        		    this.text = o.getString("text");
-       		    this.header = o.getString("header");
         	} catch ( Exception e ) {
        		    this.text = "bad data";
+        	}
+
+        	try {
+       		    this.header = o.getString("header");
+        	} catch ( Exception e ) {
        		    this.header = "";
-        		
+        	}
+
+        	try {
+       		    this.icon = o.getString("icon");
+        	} catch ( Exception e ) {
+       		    this.icon = null;
         	}
         }    
 
         public FormattedPair(Parcel source) {
             this.text = source.readString();
             this.header = source.readString();
+            this.icon = source.readString();
         }
 
 
@@ -84,6 +88,7 @@ public class Content {
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(text);
 			dest.writeString(header);
+			dest.writeString(icon);
 		}
 
 		public static final Parcelable.Creator<FormattedPair> CREATOR = new Parcelable.Creator<FormattedPair>() {
@@ -99,10 +104,10 @@ public class Content {
 
     public static class TabbedItem implements Parcelable {
     	public String title;
-        public ArrayList<BodyItem> content;
+        public ArrayList<BodyContainer> content;
 
     	public TabbedItem() {
-            this.content = new ArrayList<BodyItem>();
+            this.content = new ArrayList<BodyContainer>();
     		this.title = "";
     	}
     	
@@ -110,10 +115,14 @@ public class Content {
     		try {
         		this.title = o.getString("title");
         		JSONArray a = o.getJSONArray("tabs");
-        		content = new ArrayList<BodyItem>();
+        		//content = new ArrayList<BodyItem>();
+
+        		//JSONArray a = o.getJSONArray("tabs");
+        		content = new ArrayList<BodyContainer>();
         		for (int i = 0; i < a.length(); i++) {
-        		    JSONObject row = a.getJSONObject(i);
-        			this.content.add(new BodyItem(row));
+        		    JSONArray jsonDay = a.getJSONArray(i);
+        		    BodyContainer bc = new BodyContainer(jsonDay);
+            		this.content.add(bc);
         		}
     		} catch (Exception e) {
     			this.title = "bad data";
@@ -123,7 +132,7 @@ public class Content {
 
     	public TabbedItem(Parcel source) {
             this.title = source.readString();
-            this.content = source.createTypedArrayList(BodyItem.CREATOR);
+            this.content = source.createTypedArrayList(BodyContainer.CREATOR);
         }
 
 
@@ -155,11 +164,11 @@ public class Content {
     }
 
     public static class BodyItem implements Parcelable {
-        public ArrayList<FormattedPair> content;
+        public BodyContainer content;
         public String title;
         
         public BodyItem() {
-            this.content = new ArrayList<FormattedPair>();
+            this.content = new BodyContainer();
             this.title = "no data";
         }
 
@@ -167,11 +176,7 @@ public class Content {
         	try {
         		this.title = o.getString("title");
         		JSONArray a = o.getJSONArray("body");
-        		content = new ArrayList<FormattedPair>();
-        		for (int i = 0; i < a.length(); i++) {
-        		    JSONObject row = a.getJSONObject(i);
-        			this.content.add(new FormattedPair(row));
-        		}
+        		content = new BodyContainer(a);
         	} catch ( Exception e ) {
                 this.title = "bad data";
         	}
@@ -179,7 +184,7 @@ public class Content {
 
         public BodyItem(Parcel source) {
             this.title = source.readString();
-            this.content = source.createTypedArrayList(FormattedPair.CREATOR);
+            this.content = source.readParcelable(BodyContainer.class.getClassLoader());
         }
 
 
@@ -196,7 +201,7 @@ public class Content {
 		@Override
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(title);
-			dest.writeTypedList(content);
+			dest.writeParcelable(content, 0);
 		}
 
 		public static final Parcelable.Creator<BodyItem> CREATOR = new Parcelable.Creator<BodyItem>() {
@@ -206,6 +211,56 @@ public class Content {
 
 		    public BodyItem[] newArray(int size) {
 		        return new BodyItem[size];
+		    }
+		};
+		
+    }
+
+    public static class BodyContainer implements Parcelable {
+        public ArrayList<FormattedPair> content;
+        
+        public BodyContainer() {
+            this.content = new ArrayList<FormattedPair>();
+        }
+
+        public BodyContainer(JSONArray a ) {
+        	try {
+        		content = new ArrayList<FormattedPair>();
+        		for (int i = 0; i < a.length(); i++) {
+        		    JSONObject row = a.getJSONObject(i);
+        			this.content.add(new FormattedPair(row));
+        		}
+        	} catch ( Exception e ) {
+        	}
+        }
+
+        public BodyContainer(Parcel source) {
+            this.content = source.createTypedArrayList(FormattedPair.CREATOR);
+        }
+
+
+        @Override
+        public String toString() {
+            return "";
+        }
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeTypedList(content);
+		}
+
+		public static final Parcelable.Creator<BodyContainer> CREATOR = new Parcelable.Creator<BodyContainer>() {
+		    public BodyContainer createFromParcel(Parcel in) {
+		        return new BodyContainer(in);
+		    }
+
+		    public BodyContainer[] newArray(int size) {
+		        return new BodyContainer[size];
 		    }
 		};
 		

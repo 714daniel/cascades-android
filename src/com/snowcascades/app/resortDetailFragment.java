@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.snowcascades.app.Content;
+import com.snowcascades.app.Content.BodyContainer;
 import com.snowcascades.app.Content.BodyItem;
 import com.snowcascades.app.Content.FormattedPair;
 import com.snowcascades.app.Content.ResortItem;
@@ -89,7 +90,7 @@ public class resortDetailFragment extends Fragment {
         if (myContent != null) {
         	if ( myContent.snow != null &&  myContent.snow.content != null ) {
         		BodyItem items = myContent.snow;
-        		for ( FormattedPair pair : items.content ) {
+        		for ( FormattedPair pair : items.content.content ) {
             	    TextView header = new TextView(getActivity());
             	    header.setText(pair.header);
             	    rootView.addView(header);
@@ -118,6 +119,36 @@ public class resortDetailFragment extends Fragment {
         if (myContent != null) {
         	if ( myContent.snow != null &&  myContent.snow.content != null ) {
         		BodyItem items = myContent.traffic;
+        		for ( FormattedPair pair : items.content.content ) {
+            	    TextView header = new TextView(getActivity());
+            	    header.setText(pair.header);
+            	    rootView.addView(header);
+
+            	    TextView text = new TextView(getActivity());
+            	    text.setText(pair.text);
+            	    rootView.addView(text);
+        		}
+        	}
+        	//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
+//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
+            // put buttons at the top of the resort_detail_container
+//            TextView child = new TextView(mActivity);
+//            ((LinearLayout) rootView.findViewById(R.id.body)).addView(child);
+
+            // use viewPager for weather
+            
+            // use LinearLayout for body with TextView children
+            
+        }
+        return rootView;
+    }
+
+    private LinearLayout showWeather(LinearLayout rootView){
+
+        if (myContent != null) {
+        	if ( myContent.weather != null &&  myContent.weather.content != null ) {
+        		ArrayList<BodyContainer> weatherDays = myContent.weather.content;
+        		BodyContainer items = weatherDays.get(0);
         		for ( FormattedPair pair : items.content ) {
             	    TextView header = new TextView(getActivity());
             	    header.setText(pair.header);
@@ -161,6 +192,18 @@ public class resortDetailFragment extends Fragment {
             }
         });
 	    rootView.addView(snowButton);
+
+    	Button weatherButton = new Button(getActivity());
+    	weatherButton.setText("weather");
+    	weatherButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+            	contentView.removeAllViewsInLayout();
+            	showWeather(contentView);
+            	//showSnow(contentView);
+            }
+        });
+	    rootView.addView(weatherButton);	    
 
     	Button trafficButton = new Button(getActivity());
     	trafficButton.setText("traffic");
