@@ -8,10 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.snowcascades.app.Content;
+import com.snowcascades.app.Content.BodyItem;
+import com.snowcascades.app.Content.FormattedPair;
 import com.snowcascades.app.Content.ResortItem;
 
 /**
@@ -81,15 +84,23 @@ public class resortDetailFragment extends Fragment {
         return frag;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        //View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
+    private LinearLayout showSnow(LayoutInflater inflater, ViewGroup container){
     	LinearLayout rootView = (LinearLayout)inflater.inflate(R.layout.body_item_display, container, false);
 
-
         if (myContent != null) {
-//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
+        	if ( myContent.snow != null &&  myContent.snow.content != null ) {
+        		BodyItem items = myContent.snow;
+        		for ( FormattedPair pair : items.content ) {
+            	    TextView header = new TextView(getActivity());
+            	    header.setText(pair.header);
+            	    rootView.addView(header);
+
+            	    TextView text = new TextView(getActivity());
+            	    text.setText(pair.text);
+            	    rootView.addView(text);
+        		}
+        	}
+        	//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
 //            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
             // put buttons at the top of the resort_detail_container
 //            TextView child = new TextView(mActivity);
@@ -100,7 +111,17 @@ public class resortDetailFragment extends Fragment {
             // use LinearLayout for body with TextView children
             
         }
-
         return rootView;
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+    	return showSnow(inflater, container);
+        //View rootView = inflater.inflate(R.layout.fragment_resort_detail, container, false);
+
+
+//        return rootView;
+    }
+
 }
