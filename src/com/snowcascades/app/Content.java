@@ -105,14 +105,17 @@ public class Content {
     public static class TabbedItem implements Parcelable {
     	public String title;
         public ArrayList<BodyContainer> content;
+        public int focusedItem;
 
     	public TabbedItem() {
             this.content = new ArrayList<BodyContainer>();
     		this.title = "";
+    		this.focusedItem = 0;
     	}
     	
     	public TabbedItem(JSONObject o) {
     		try {
+        		this.focusedItem = 0;
         		this.title = o.getString("title");
         		JSONArray a = o.getJSONArray("tabs");
         		//content = new ArrayList<BodyItem>();
@@ -133,6 +136,7 @@ public class Content {
     	public TabbedItem(Parcel source) {
             this.title = source.readString();
             this.content = source.createTypedArrayList(BodyContainer.CREATOR);
+    		this.focusedItem = source.readInt();
         }
 
 
@@ -150,6 +154,7 @@ public class Content {
 		public void writeToParcel(Parcel dest, int flags) {
 			dest.writeString(title);
 			dest.writeTypedList(content);
+			dest.writeInt(focusedItem);
 		}
 
 		public static final Parcelable.Creator<TabbedItem> CREATOR = new Parcelable.Creator<TabbedItem>() {
