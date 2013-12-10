@@ -74,11 +74,11 @@ public class resortDetailFragment extends Fragment {
         }
     }
 
-    public static resortDetailFragment createInstance(ResortItem foo) {
+    public static resortDetailFragment createInstance(ResortItem item) {
         Bundle init = new Bundle();
         init.putParcelable(
         	ARG_ITEM_ID,
-            foo);
+            item);
 
         resortDetailFragment frag = new resortDetailFragment();
         frag.setArguments(init);
@@ -147,27 +147,70 @@ public class resortDetailFragment extends Fragment {
 
         if (myContent != null) {
         	if ( myContent.weather != null &&  myContent.weather.content != null ) {
-        		ArrayList<BodyContainer> weatherDays = myContent.weather.content;
-        		BodyContainer items = weatherDays.get(0);
+
+        		final LinearLayout weatherView = new LinearLayout(getActivity());
+
+            	Button nextButton = new Button(getActivity());
+            	nextButton.setText("next");
+            	nextButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                    	if ( myContent.weather.focusedItem + 1 < myContent.weather.content.size() ) {
+	                    	myContent.weather.focusedItem++;
+	                        // Perform action on click
+	                    	weatherView.removeAllViewsInLayout();
+	                	    ArrayList<BodyContainer> weatherDays = myContent.weather.content;
+	                		BodyContainer items = weatherDays.get(myContent.weather.focusedItem);
+	                		for ( FormattedPair pair : items.content ) {
+	                    	    TextView header = new TextView(getActivity());
+	                    	    header.setText(pair.header);
+	                    	    weatherView.addView(header);
+	
+	                    	    TextView text = new TextView(getActivity());
+	                    	    text.setText(pair.text);
+	                    	    weatherView.addView(text);
+	                		}
+                    	}
+                    }
+                });
+        	    rootView.addView(nextButton);
+        	    
+            	Button prevButton = new Button(getActivity());
+            	prevButton.setText("prev");
+            	prevButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                    	if ( myContent.weather.focusedItem > 0 ) {
+	                    	myContent.weather.focusedItem--;
+	                        // Perform action on click
+	                    	weatherView.removeAllViewsInLayout();
+	                	    ArrayList<BodyContainer> weatherDays = myContent.weather.content;
+	                		BodyContainer items = weatherDays.get(myContent.weather.focusedItem);
+	                		for ( FormattedPair pair : items.content ) {
+	                    	    TextView header = new TextView(getActivity());
+	                    	    header.setText(pair.header);
+	                    	    weatherView.addView(header);
+	
+	                    	    TextView text = new TextView(getActivity());
+	                    	    text.setText(pair.text);
+	                    	    weatherView.addView(text);
+	                		}
+                    	}
+                    }
+                });
+        	    rootView.addView(prevButton);
+
+        	    ArrayList<BodyContainer> weatherDays = myContent.weather.content;
+        		BodyContainer items = weatherDays.get(myContent.weather.focusedItem);
         		for ( FormattedPair pair : items.content ) {
             	    TextView header = new TextView(getActivity());
             	    header.setText(pair.header);
-            	    rootView.addView(header);
+            	    weatherView.addView(header);
 
             	    TextView text = new TextView(getActivity());
             	    text.setText(pair.text);
-            	    rootView.addView(text);
+            	    weatherView.addView(text);
         		}
+        	    rootView.addView(weatherView);
         	}
-        	//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.weather.content.get(0).content.get(1).text);
-//            ((TextView) rootView.findViewById(R.id.resort_detail_container)).setText(myContent.snow.content.get(0).text);
-            // put buttons at the top of the resort_detail_container
-//            TextView child = new TextView(mActivity);
-//            ((LinearLayout) rootView.findViewById(R.id.body)).addView(child);
-
-            // use viewPager for weather
-            
-            // use LinearLayout for body with TextView children
             
         }
         return rootView;
