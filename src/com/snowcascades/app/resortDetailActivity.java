@@ -64,7 +64,8 @@ public class resortDetailActivity extends FragmentActivity {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
-                NavUtils.navigateUpTo(this, new Intent(this, resortListActivity.class));
+            	onBackPressed();
+                //NavUtils.navigateUpTo(this, new Intent(this, resortListActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

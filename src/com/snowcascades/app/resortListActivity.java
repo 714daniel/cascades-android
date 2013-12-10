@@ -103,7 +103,7 @@ public class resortListActivity extends FragmentActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(resortDetailFragment.ARG_ITEM_ID, disposable.content);
+            arguments.putParcelable(resortDetailFragment.ARG_ITEM_ID, disposable);
             resortDetailFragment fragment = new resortDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
